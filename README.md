@@ -7,15 +7,15 @@
   <img src="https://img.shields.io/badge/Problem-Classification-yellow.svg">
 </p>
 
-This project delivers an end-to-end machine learning solution designed to detect fraudulent insurance claims, a critical task for mitigating financial losses in the insurance industry. [cite_start]The system analyzes a complex dataset of 39 features to accurately classify claims as fraudulent or legitimate[cite: 3].
+This project delivers an end-to-end machine learning solution designed to detect fraudulent insurance claims, a critical task for mitigating financial losses in the insurance industry. The system analyzes a complex dataset of 39 features to accurately classify claims as fraudulent or legitimate.
 
-The project addresses the key challenge of class imbalance by systematically training and evaluating a wide range of models. It culminates in the development of a sophisticated **soft-voting ensemble classifier**, which combines the strengths of the top-performing models to achieve superior predictive accuracy and high recall for fraudulent cases.
+We address the key challenge of class imbalance by systematically training and evaluating a wide range of models. It culminates in the development of a sophisticated **soft-voting ensemble classifier**, which combines the strengths of the top-performing models to achieve superior predictive accuracy and high recall for fraudulent cases.
 
 ### Core Features:
-* [cite_start]**In-Depth EDA:** Uncovered non-obvious patterns, including a high correlation between certain customer hobbies (e.g., chess, cross-fit) and fraudulent claims[cite: 9].
-* [cite_start]**Advanced Feature Engineering:** Developed novel, insightful features such as `claim_severity_ratio` and `from_bind_to_incident_months` to enhance model performance[cite: 5, 68].
-* [cite_start]**Rigorous Model Benchmarking:** Systematically trained, tuned (`GridSearchCV`), and evaluated a wide array of models, from Logistic Regression to powerful ensembles like Random Forest, Gradient Boosting, and XGBoost[cite: 15, 20, 32, 44].
-* [cite_start]**Sophisticated Ensembling:** Constructed a final **Voting Classifier** that leverages the probabilistic predictions of the top three models (Decision Tree, Random Forest, XGBoost) to maximize recall and ROC-AUC score[cite: 55].
+* **In-Depth EDA:** Uncovered non-obvious patterns, including a high correlation between certain customer hobbies (e.g., chess, cross-fit) and fraudulent claims.
+* **Advanced Feature Engineering:** Developed novel, insightful features such as `claim_severity_ratio` and `from_bind_to_incident_months` to enhance model performance.
+* **Rigorous Model Benchmarking:** Systematically trained, tuned (`GridSearchCV`), and evaluated a wide array of models, from Logistic Regression to powerful ensembles like Random Forest, Gradient Boosting, and XGBoost.
+* **Sophisticated Ensembling:** Constructed a final **Voting Classifier** that leverages the probabilistic predictions of the top three models (Decision Tree, Random Forest, XGBoost) to maximize recall and ROC-AUC score.
 
 ---
 
@@ -50,12 +50,12 @@ The project was executed through a structured pipeline to ensure a robust and re
 
 ### 1. Exploratory Data Analysis (EDA)
 * **Source Notebook:** `notebooks/eda.ipynb`
-* [cite_start]An extensive EDA was performed on the dataset of 1000 insurance claims to identify underlying patterns and data quality issues[cite: 6].
+* An extensive EDA was performed on the dataset of 1000 insurance claims to identify underlying patterns and data quality issues[cite: 6].
 * **Key Findings:**
-    * [cite_start]The target variable `fraud_reported` was imbalanced, with only 24.7% of claims being fraudulent, requiring special handling during modeling[cite: 7].
-    * [cite_start]A surprising discovery was the high fraud rates associated with hobbies like "chess" (82.6%) and "cross-fit" (74.3%), which were later used for feature engineering[cite: 9].
-    * [cite_start]High collinearity was found among claim amount features (`total_claim_amount`, `injury_claim`, etc.), leading to the decision to drop redundant columns and retain only the total amount[cite: 20, 21].
-    * [cite_start]The `authorities_contacted` column was the only one with a significant number of missing values (91)[cite: 5].
+    * The target variable `fraud_reported` was imbalanced, with only 24.7% of claims being fraudulent, requiring special handling during modeling.
+    * A surprising discovery was the high fraud rates associated with hobbies like "chess" (82.6%) and "cross-fit" (74.3%), which were later used for feature engineering.
+    * High collinearity was found among claim amount features (`total_claim_amount`, `injury_claim`, etc.), leading to the decision to drop redundant columns and retain only the total amount.
+    * The `authorities_contacted` column was the only one with a significant number of missing values (91).
 
 ![Hobby vs. Fraud Rate](assets/hobby_fraud_rate.png)
 ![Correlation Heatmap](assets/correlation_heatmap.png)
@@ -65,16 +65,16 @@ The project was executed through a structured pipeline to ensure a robust and re
 * The raw data was transformed into a clean, model-ready format through targeted feature engineering and preprocessing.
 * **Key Steps:**
     * **Feature Creation:** Engineered several new features to add predictive power, including:
-        * [cite_start]`claim_severity_ratio`: The ratio of total claim amount to the policy's annual premium[cite: 5].
-        * [cite_start]`is_high_risk_hobby`: A binary flag for customers with hobbies found to have an extremely high correlation with fraud[cite: 23].
-        * [cite_start]`from_bind_to_incident_months`: The customer's tenure in months at the time of the incident[cite: 9].
-    * [cite_start]**Data Cleaning:** Corrected data entry errors (e.g., a negative `umbrella_limit` value [cite: 16][cite_start]) and replaced placeholder '?' values with a meaningful 'Unknown' category[cite: 20].
-    * [cite_start]**Encoding:** Applied a mix of encoding strategies, including one-hot encoding for nominal categories, label encoding for tree-based models, and manual ordinal mapping for features like `incident_severity`[cite: 28, 10].
-    * [cite_start]**Feature Dropping:** Removed columns with high cardinality and low signal (e.g., `policy_number`, `incident_city`) to reduce noise[cite: 12, 13].
+        * `claim_severity_ratio`: The ratio of total claim amount to the policy's annual premium.
+        * `is_high_risk_hobby`: A binary flag for customers with hobbies found to have an extremely high correlation with fraud[cite: 23].
+        * `from_bind_to_incident_months`: The customer's tenure in months at the time of the incident.
+    * **Data Cleaning:** Corrected data entry errors (e.g., a negative `umbrella_limit` value ) and replaced placeholder '?' values with a meaningful 'Unknown' category.
+    * **Encoding:** Applied a mix of encoding strategies, including one-hot encoding for nominal categories, label encoding for tree-based models, and manual ordinal mapping for features like `incident_severity`.
+    * **Feature Dropping:** Removed columns with high cardinality and low signal (e.g., `policy_number`, `incident_city`) to reduce noise.
 
 ### 3. Model Benchmarking & Hyperparameter Tuning
 * **Source Notebooks:** `notebooks/model-training.ipynb`, `notebooks/tree-models.ipynb`
-* A wide range of classification models were trained and systematically evaluated. [cite_start]For tree-based models, `GridSearchCV` was employed to find the optimal hyperparameters by optimizing for the F1-score[cite: 15, 20, 32, 44].
+* A wide range of classification models were trained and systematically evaluated. For tree-based models, `GridSearchCV` was employed to find the optimal hyperparameters by optimizing for the F1-score.
 
 #### Performance Comparison of Tuned Models:
 
@@ -89,7 +89,7 @@ The project was executed through a structured pipeline to ensure a robust and re
 
 ### 4. Final Ensemble Model: The Voting Classifier
 * **Source Notebook:** `notebooks/tree-models.ipynb`
-* To create a more robust and powerful final model, a **soft-voting ensemble** was constructed. [cite_start]This classifier combines the prediction probabilities of the top three best-performing individual models: the tuned **Decision Tree, Random Forest, and XGBoost classifiers**[cite: 55].
+* To create a more robust and powerful final model, a **soft-voting ensemble** was constructed. This classifier combines the prediction probabilities of the top three best-performing individual models: the tuned **Decision Tree, Random Forest, and XGBoost classifiers**[cite: 55].
 * By averaging their probabilistic outputs, the voting classifier smooths out individual model biases and leverages their collective strengths.
 
 #### Final Model Performance:
